@@ -1,0 +1,115 @@
+DB (DataBase)
+	- 정보가 모여있는 기지 (여러가지 데이터를 모아둔 공간)
+	- 데이터는 물리적인 파일로 저장되어 있으나 직접 열어서 조회하고 수정하는 것이 아니라 
+	   DBMS에서 SQL이라는 언어를 통해 조회, 수정 등을 하게 된다.
+
+DBMS (DataBase Management System)
+	- DataBase를 관리하는 구체적인 체계(시스템)
+	- DB에 존재하는 데이터를 편하고 효율적으로 관리하는 환경을 제공해주는 프로그램
+
+RDBMS
+	- 관계형 DataBase 관리 시스템
+	- 데이터를 2차원의 테이블(표) 형태로 저장해놓는 데이터베이스
+	- RDBMS의 종류
+		Oracle, MariaDB, MySQL, ...
+
+오라클 DBMS 버전 (9, 11, 19, 21)
+		오라클은 짝수 버전을 사용하지 않음
+		i : internet (네트워크 상에서 데이터 어필)
+		g : grid (텍스트가 아닌 그래픽으로 표 출력)
+		c : Cloud 
+
+오라클 설치 여부 확인하기
+	- cmd(터미널) > sqlplus > Enter user-name : 설치 되어있음
+	- Release 11버전 확인하기
+
+오라클 삭제
+	제어판 > 프로그램 제거 > Oracle DataBase 11g ... > 삭제
+	C:\ > oraclexe > 삭제
+
+오라클 DBMS 11g 버전 설치
+	https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+
+SQL (Structured Query Language)
+	- 구조화된 표준 쿼리 언어
+	- 데이터베이스 관리 시스템의 데이터를 관리하기 위해 설계된 언어
+	- 명령어를 SQL문, 쿼리문, 질의문이라고 말하기도 한다.
+	- 테이블(table)	
+		- 행(row)과 열(column)로 이루어진 2차원의 표
+		- 행(row) : 가로줄, 튜플(tuple), 레코드(record), 인스턴스(instance)
+		- 열(column) : 세로줄, 필드(field), 속성(attribute)
+
+오라클에는 기본 계정이 존재한다.
+	sys 	: Oracle DBMS 관리자 계정
+	system	: DBMS 운영을 위한 관리자 계정
+	일반계정(hr, scott 등) : 학습을 위한 계정(기본적인 데이터가 들어있다)
+
+권한
+	sysdba
+		데이터베이스 생성 및 삭제 등 모든 권한을 의미한다.
+		(sys가 갖는 권한)
+	sysoper
+		데이터베이스 운영을 위한 권한
+		(system이 갖는 권한) : 생성 혹은 삭제는 못함
+
+hr 계정 잠금해제
+	sqlplus system/1234 (관리하는 계정으로 로그인)
+	show user (현재 로그인한 계정 확인)
+	conn hr/1234 (hr 계정으로 로그인)
+		실패 시 빈 문자열 "" -> 익명상태
+	conn system/1234 (system 계정으로 로그인)
+	show user (현재 로그인한 계정 확인)
+	alter user hr account unlock identified by 1234; (잠금해제 + 비밀번호 설정)
+	conn hr/1234 (hr계정 로그인)
+	show user (로그인 성공 확인)
+
+디비버 (DBeaver)
+	무료 DB 접속 툴(도구), IDE(통합개발환경)
+	java가 설치되어 있어야 한다.
+
+DBeaver 설치
+	구글 > DBeaver 검색 > 최상위 링크 접속(공식 사이트) > Window(zip) > 다운로드 > 압축해제
+
+DBeaver 설정 (처음에 아니오 누르기)
+	파일 > 작업공간 전환 > 기타 > 내 폴더 workspace 설정
+
+	- 새 데이터베이스 연결 (플러그 모양) > 오라클 선택 > 버전 XE로 선택 > 
+		계정 : hr > 비밀번호 : 1234 > Test Connection
+
+	- DB연결 최초 1회
+		Driver Settings > Libraries > 전부 삭제 > Add File > ojdbc6 추가 > 확인 > Test Connection
+
+	- ojdbc6 위치
+		C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib
+
+	- 새 프로젝트 > Set ...
+
+	- Script 파일 만들기
+		Ctrl + ] (Script > Create > Create New File)
+
+	- 이름 바꾸기 : f2 
+	
+	- 글자 키우기 : Ctrl + +
+
+SQL문 주요 특징
+	- 한 줄씩 실행되는 인터프리터 언어
+	- 대문자와 소문자를 구분하지 않는다.
+
+일반적인 사용법(가독성을 높이기 위함)
+	- 여러 줄에 걸쳐 작성이 가능하다.
+	- 들여쓰기를 활용한다.
+    
+HR 계정 내에 존재하는 employees 테이블
+	- 11개의 컬럼으로 이루어져 있다.
+	- 107개의 행이 존재한다.
+	- 107명의 직원 데이터를 저장해놓은 연습용 테이블
+
+SELECT
+	- 테이블에서 데이터를 조회할 때 사용하는 명령어
+
+사용 방법
+	- SELECT 컬럼명 FROM 테이블명;
+		'해당 테이블에서 특정 컬럼을 선택해서 조회하겠다'라는 의미
+
+DBeaver에서 테이블 정보 확인하기
+	데이터베이스 > Schemas > HR > Tables > 원하는 테이블 더블 클릭
